@@ -4,12 +4,11 @@ def main():
     p2 = 0
     try:
         with open('input.txt', 'r') as fin:
-            data = fin.readlines()
+            data = fin.read().splitlines()
             for line in data:
                 x, z = line.split(': ')
                 y, c = x.split(' ')
                 a, b = y.split('-')
-                z = z.split('\n')[0]
                 if (checkPwdCount(int(a), int(b), c, z)):
                     p1 = p1 + 1
                 if (checkPwdLocation(int(a), int(b), c, z)):
