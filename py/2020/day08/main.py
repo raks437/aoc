@@ -6,8 +6,8 @@ def main():
         with open('input.txt', 'r') as fin:
             data = fin.read().splitlines()
             my_game_console = GameConsole(data)
-            my_game_console.parse()
-            p1 = my_game_console.get_accumulator()
+            p1 = my_game_console.get_accumulator()['accumulator']
+            p2 = my_game_console.hit_and_trial_to_fix_game_code()
     finally:
         fin.close()
         print(f'Part 1: {p1}')
@@ -19,24 +19,50 @@ class GameConsole:
         self.data = data
         self.accumulator = 0
         self.instruction = set()
-        self.line = 0
         self.terminated = False
+        self.is_repeating = False
 
-    def parse(self, reset=False):
-        self.line = 0 if reset else self.line
-        while self.line not in self.instruction or self.terminated:
-            self.instruction.add(self.line)
-            op, arg = self.data[self.line].split(' ')
+    def get_accumulator(self, data=[], stop_repeat=True):
+        line = 0
+        if len(data) == 0:
+            data = self.data
+        while line <= len(data) - 1 and not self.terminated:
+            op, arg = data[line].split(' ')
+            if stop_repeat and line in self.instruction:
+                break
+            else:
+                self.instruction.add(line)
             if op == 'acc':
                 self.accumulator = self.accumulator + int(arg)
-                self.line = self.line + 1
+                line += 1
             elif op == 'jmp':
-                self.line = self.line + int(arg)
+                line += int(arg)
             elif op == 'nop':
-                self.line = self.line + 1
-            self.parse()
+                line += 1
+            elif op == 'end':
+                self.terminated = True
+        return {'accumulator': self.accumulator, 'terminated': self.terminated}
 
-    def get_accumulator(self):
+    def hit_and_trial_to_fix_game_code(self):
+        for i in range(0, len(self.data) - 1):
+            self.terminated = False
+            self.accumulator = 0
+            self.instruction = set()
+            line = self.data[i]
+            trial_data = self.data[:]
+            if 'jmp' in line:
+                op, arg = trial_data[i].split(' ')
+                op = 'nop'
+                trial_data[i] = ' '.join([op, arg])
+                if self.get_accumulator(trial_data)['terminated']:
+                    break
+            elif 'nop' in line:
+                op, arg = trial_data[i].split(' ')
+                op = 'jmp'
+                trial_data[i] = ' '.join([op, arg])
+                if self.get_accumulator(trial_data)['terminated']:
+                    break
+
         return self.accumulator
 
 
