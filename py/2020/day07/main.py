@@ -29,18 +29,18 @@ def get_outer_bag_color(data, bag_color):
 
 
 def get_total_bags_count(data, bag_color):
-    inner_count = 0
+    count = 0
     for line in data:
         outer_bag, inner_bags = line.split('contain ')
         outer_bag_color = outer_bag.split(' bags')[0]
         if bag_color == outer_bag_color and 'no other bags' not in inner_bags:
             inner_bags_list = inner_bags.split(', ')
-            inner_count = sum([int(x.split(' ')[0]) for x in inner_bags_list])
+            count = sum([int(x.split(' ')[0]) for x in inner_bags_list])
             for inner_bag in inner_bags_list:
                 bag_count = int(inner_bag.split(' ')[0])
                 inner_bag_color = inner_bag.split(' bag')[0][2:]
-                inner_count += bag_count * get_total_bags_count(data, inner_bag_color)
-    return inner_count
+                count += bag_count * get_total_bags_count(data, inner_bag_color)
+    return count
 
 
 if __name__ == '__main__':
