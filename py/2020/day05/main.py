@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python33
 def main():
     p1 = 0
     p2 = 0
