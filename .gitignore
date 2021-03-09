@@ -1,2 +1,7 @@
+# IDE project metadata folders
 .idea/
 .vscode/
+
+# Rust executable file
+rs/**/main
+*.o

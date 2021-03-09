@@ -14,7 +14,7 @@ max_line_length = 160
 [*.{js,py,rs}]
 charset = utf-8
 
-# 4 space indentation
-[*.py]
+# 2 space indentation
+[*.{py,rs,js,ts,cs}]
 indent_style = space
-indent_size = 4
+indent_size = 2
