@@ -54,9 +54,6 @@ fn main(){
     let rect = Rectangle {w: r[0], h: r[1], l: r[2]};
     p1 += rect.surface_area() + rect.smallest_side_area();
     p2 += rect.diameter() + rect.smallest_side_diameter();
-    // println!("Gift number#{} requires {} sq m paper", num, rect.surface_area() + rect.smallest_side_area());
-    // println!("Area of gift #{} is {}", num, rect.surface_area());
-    // println!("{}:: w:{}, h:{}, l:{}", num, r[0], r[1], r[2]);
   }
 
   println!("P1::{}", p1);
